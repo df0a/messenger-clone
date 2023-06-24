@@ -11,7 +11,7 @@ datasource db {
 }
 
 model User {
-  id String @id @map("_id") @default(auto()) @db.ObjectId
+  id String @id @map("_id") @default(cuid())
   name String?
   email String? @unique
   emailVerified DateTime?
@@ -20,10 +20,10 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  conversationIds String[] @db.ObjectId
+  conversationIds String[] 
   conversations Conversation[] @relation(fields: [conversationIds] , references: [id])
 
-  seenMessageIds String[] @db.ObjectId
+  seenMessageIds String[] 
   seenMessages Message[] @relation(fields: [seenMessageIds] , references: [id] , name: "Seen")
 
   accounts Account[]
@@ -31,8 +31,8 @@ model User {
 }
 
 model Account{
-  id String @id @map("_id") @default(auto()) @db.ObjectId
-  userId String @db.ObjectId
+  id String @id @default(cuid()) @map("_id")
+  userId String
   type String
   provider String
   providerAccountId String
@@ -51,33 +51,33 @@ model Account{
 }
 
 model Conversation{
-  id String @id @map("_id") @default(auto()) @db.ObjectId
+  id String @id @default(cuid()) @map("_id")
   createdAt DateTime @default(now())
   lastMessageAt DateTime @default(now())
   name String?
   isGroup Boolean?
 
-  messageIds String[] @db.ObjectId
+  messageIds String[] 
   messages Message[]
 
-  userIds String[] @db.ObjectId
+  userIds String[] 
   users User[] @relation(fields: [userIds],references: [id])
 
 }
 
 model Message{
-  id String @id @map("_id") @default(auto()) @db.ObjectId
+  id String @id @default(cuid()) @map("_id")
   body String?
   image String?
   createdId DateTime @default(now())
 
-  seenIds String[] @db.ObjectId
+  seenIds String[] 
   seenBy User[] @relation(name: "Seen" , fields: [seenIds],references: [id])
 
-  conversationId String @db.ObjectId
+  conversationId String 
   conversation Conversation @relation(fields: [conversationId] , references: [id] , onDelete:Cascade)
 
-  senderId String @db.ObjectId
+  senderId String 
   sender User @relation(fields: [senderId] , references: [id] , onDelete:Cascade)
 
 
