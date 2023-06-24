@@ -4,10 +4,12 @@ import Button from '@/app/components/Button';
 import Input from '@/app/components/inputs/Input';
 import { useCallback, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
-import { text } from 'stream/consumers';
 import AuthSocialButton from './AuthSocialButton';
 import { BsGithub, BsGoogle } from 'react-icons/bs';
 import axios from 'axios';
+import { toast } from 'react-hot-toast';
+
+import { signIn } from 'next-auth/react';
 
 type Variant = 'LOGIN' | 'REGISTER';
 
@@ -36,11 +38,28 @@ function AuthForm() {
 
     const onSubmit: SubmitHandler<FieldValues> = (data) => {
         setIsLoading(true);
-        console.log(data);
         if (variant === 'REGISTER') {
-            axios.post('/api/register', data);
+            axios
+                .post('/api/register', data)
+                .catch((e) => {
+                    toast.error('Something went wrong!');
+                })
+                .finally(() => setIsLoading(false));
         } else {
-            // TODO: NextAuth Login
+            signIn('credentials', {
+                ...data,
+                redirect: false,
+            })
+                .then((callback) => {
+                    if (callback?.error) {
+                        toast.error('Invalid credentials');
+                    } else {
+                        if (callback?.ok) {
+                            toast.success('Login Success');
+                        }
+                    }
+                })
+                .finally(() => setIsLoading(false));
         }
     };
 
