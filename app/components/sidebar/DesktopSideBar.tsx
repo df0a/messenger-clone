@@ -32,7 +32,7 @@ const DesktopSideBar = () => {
                          mt-4
                          flex
                          flex-col
-                         justify-center
+                         justify-between
                          "
             >
                 <ul

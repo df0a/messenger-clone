@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { IconType } from 'react-icons/lib';
 
-interface DesktopItemProps {
+interface MobileItemProps {
     label: string;
     icon: IconType;
     href: string;
@@ -12,7 +12,7 @@ interface DesktopItemProps {
     active?: boolean;
 }
 
-const DesktopItem: React.FC<DesktopItemProps> = ({
+const MobileItem: React.FC<MobileItemProps> = ({
     label,
     icon: Icon,
     href,
@@ -22,21 +22,23 @@ const DesktopItem: React.FC<DesktopItemProps> = ({
     const handleClick = () => {
         if (onClick) return onClick();
     };
+    console.log(`${label}:${active}`);
     return (
-        <li onClick={handleClick}>
+        <div>
             <Link
+                onClick={onClick}
                 href={href}
                 className={clsx(
                     `group
                     flex
-                    gap-x-3
-                    rounded-md
-                    p-3
+                    p-4
                     text-sm
                     leading-6
-                    font-semibold`,
+                    font-semibold
+                    justify-center
+                    `,
                     active
-                        ? `
+                        ? `bg-gray-100
                     text-black
                     hover:cursor-default`
                         : `text-gray-400
@@ -44,10 +46,9 @@ const DesktopItem: React.FC<DesktopItemProps> = ({
                         hover:bg-gray-200`
                 )}
             >
-                <Icon className="h-6 w-6 shrink-0"></Icon>
-                <span className="sr-only">{label}</span>
+                <Icon className="h-6 w-6"></Icon>
             </Link>
-        </li>
+        </div>
     );
 };
-export default DesktopItem;
+export default MobileItem;
