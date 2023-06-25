@@ -2,7 +2,7 @@ import Image from 'next/image';
 import AuthForm from './components/AuthForm';
 import { Suspense } from 'react';
 
-export default function Home() {
+export default function Login() {
     return (
         <>
             <div

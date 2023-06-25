@@ -9,21 +9,24 @@ import { BsGithub, BsGoogle } from 'react-icons/bs';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 
+import { useRouter } from 'next/navigation';
+
 import { signIn, useSession } from 'next-auth/react';
 
 type Variant = 'LOGIN' | 'REGISTER';
 
 function AuthForm() {
     const session = useSession();
+    const router = useRouter();
     const [variant, setVariant] = useState<Variant>('LOGIN');
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     useEffect(() => {
         if (session?.status === 'authenticated') {
+            router.push('/users');
             toast.success('Is Authenticated');
         }
-    }),
-        [session?.status];
+    }, [session?.status, router]);
 
     const toggleVariant = useCallback(() => {
         if (variant === 'LOGIN') {
@@ -50,10 +53,16 @@ function AuthForm() {
         if (variant === 'REGISTER') {
             axios
                 .post('/api/register', data)
+                .then(() => {
+                    signIn('credentials', data);
+                    toast.success('Register success');
+                })
                 .catch((e) => {
                     toast.error('Something went wrong!');
                 })
-                .finally(() => setIsLoading(false));
+                .finally(() => {
+                    setIsLoading(false);
+                });
         } else {
             signIn('credentials', {
                 ...data,
@@ -65,10 +74,13 @@ function AuthForm() {
                     } else {
                         if (callback?.ok) {
                             toast.success('Login Success');
+                            router.push('/users');
                         }
                     }
                 })
-                .finally(() => setIsLoading(false));
+                .finally(() => {
+                    setIsLoading(false);
+                });
         }
     };
 
@@ -82,6 +94,7 @@ function AuthForm() {
                 } else {
                     if (callback?.ok) {
                         toast.success('Login Success');
+                        router.push('/users');
                     }
                 }
             })
