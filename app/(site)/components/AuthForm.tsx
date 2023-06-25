@@ -59,46 +59,40 @@ function AuthForm() {
                 })
                 .catch((e) => {
                     toast.error('Something went wrong!');
-                })
-                .finally(() => {
                     setIsLoading(false);
                 });
         } else {
             signIn('credentials', {
                 ...data,
                 redirect: false,
-            })
-                .then((callback) => {
-                    if (callback?.error) {
-                        toast.error('Invalid credentials');
-                    } else {
-                        if (callback?.ok) {
-                            toast.success('Login Success');
-                            router.push('/users');
-                        }
-                    }
-                })
-                .finally(() => {
-                    setIsLoading(false);
-                });
-        }
-    };
-
-    const socialAction = (action: string) => {
-        setIsLoading(true);
-
-        signIn(action, { redirect: false })
-            .then((callback) => {
+            }).then((callback) => {
                 if (callback?.error) {
                     toast.error('Invalid credentials');
+                    setIsLoading(false);
                 } else {
                     if (callback?.ok) {
                         toast.success('Login Success');
                         router.push('/users');
                     }
                 }
-            })
-            .finally(() => setIsLoading(false));
+            });
+        }
+    };
+
+    const socialAction = (action: string) => {
+        setIsLoading(true);
+
+        signIn(action, { redirect: false }).then((callback) => {
+            if (callback?.error) {
+                toast.error('Invalid credentials');
+                setIsLoading(false);
+            } else {
+                if (callback?.ok) {
+                    toast.success('Login Success');
+                    router.push('/users');
+                }
+            }
+        });
     };
 
     return (

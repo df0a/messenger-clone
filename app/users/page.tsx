@@ -1,20 +1,16 @@
 'use client';
 
-import { signOut, useSession } from 'next-auth/react';
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { toast } from 'react-hot-toast';
+import { signOut } from 'next-auth/react';
+import EmptyState from '../components/EmptyState';
 
 const Users = () => {
-    const session = useSession();
-    const router = useRouter();
-
-    useEffect(() => {
-        if (session?.status !== 'authenticated') {
-            router.push('/');
-            toast.error('Not Authenticated');
-        }
-    }, [session?.status, router]);
-    return <button onClick={() => signOut()}>Logout</button>;
+    return (
+        <>
+            <button onClick={() => signOut()}>Logout</button>
+            <div className="hidden lg:pl-80 lg:block h-full">
+                <EmptyState />
+            </div>
+        </>
+    );
 };
 export default Users;
