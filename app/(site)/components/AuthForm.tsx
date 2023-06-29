@@ -24,7 +24,6 @@ function AuthForm() {
     useEffect(() => {
         if (session?.status === 'authenticated') {
             router.push('/users');
-            toast.success('Is Authenticated');
         }
     }, [session?.status, router]);
 
