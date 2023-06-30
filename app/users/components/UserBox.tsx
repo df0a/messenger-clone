@@ -51,6 +51,7 @@ const UserBox: React.FC<UserBoxProps> = ({ data }) => {
                             flex
                             justify-between
                             items-center
+                            pl-1
                             mb-1
                         "
                     >
