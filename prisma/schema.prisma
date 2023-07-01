@@ -69,7 +69,7 @@ model Message{
   id String @id @default(cuid()) @map("_id")
   body String?
   image String?
-  createdId DateTime @default(now())
+  createdAt DateTime @default(now())
 
   seenIds String[] 
   seenBy User[] @relation(name: "Seen" , fields: [seenIds],references: [id])
