@@ -38,7 +38,7 @@ const ConversationList: React.FC<ConversationListProps> = ({
             )}
         >
             <div className="px-5">
-                <div className="flex justify-between mb-4 pt-4">
+                <div className="flex justify-between gap-2 mb-4 pt-4">
                     <div
                         className="
                                 text-2xl
