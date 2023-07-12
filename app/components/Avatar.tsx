@@ -9,11 +9,7 @@ interface AvatarProps {
 
 const Avatar: React.FC<AvatarProps> = ({ imgUrl }) => {
     return (
-        <div
-            className="
-                    relative
-                "
-        >
+        <div className="relative">
             <div
                 className="
                 relative
